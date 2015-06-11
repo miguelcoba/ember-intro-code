@@ -1,9 +1,6 @@
 App = Ember.Application.create();
 
-App.attendants = [
-	{ id: 1, firstName: 'Tom', lastName: 'Dale', email: 'tom@emberjs.com' },
-	{ id: 2, firstName: 'Yehuda', lastName: 'katz', email: 'wycats@emberjs.com' }
-];
+App.attendants = [];
 
 App.Router.map(function() {
   // put your routes here
