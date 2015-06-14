@@ -40,9 +40,6 @@ App.AttendantsRoute = Ember.Route.extend({
   }
 });
 
-App.AttendantsController = Ember.ArrayController.extend({
-});
-
 App.AttendantsAboutRoute = Ember.Route.extend({
   model: function(params) {
     return App.attendants.findBy('id', params.attendant_id);
