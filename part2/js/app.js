@@ -1,5 +1,15 @@
 App = Ember.Application.create();
 
+App.ApplicationAdapter = DS.RESTAdapter.extend({
+	host: 'http://localhost:3000'
+});
+
+App.Attendant = DS.Model.extend({
+	firstName: DS.attr(), // default type: string
+	lastName: DS.attr(),
+	email: DS.attr()
+});
+
 App.Router.map(function() {
   // put your routes here
 	this.route('register');
@@ -25,10 +35,14 @@ App.RegisterController = Ember.Controller.extend({
 
 	actions: {
 		register: function() {
-			var newAttendant = Ember.copy(this.get('model'));
+			var newAttendant = this.store.createRecord('attendant', {
+				firstName: this.get('model.firstName'),
+				lastName: this.get('model.lastName'),
+				email: this.get('model.email'),
+			});
 			var self = this;
 
-			Ember.$.post('http://localhost:3000/attendants', newAttendant).then(function(data) {
+			newAttendant.save().then(function(data) {	// save() triggers a POST request 
 				self.transitionToRoute('index');
 			});
 		}
@@ -37,12 +51,12 @@ App.RegisterController = Ember.Controller.extend({
 
 App.AttendantsRoute = Ember.Route.extend({
   model: function() {
-    return Ember.$.getJSON('http://localhost:3000/attendants');
+    return this.store.find('attendant');
   }
 });
 
 App.AttendantsAboutRoute = Ember.Route.extend({
   model: function(params) {
-    return Ember.$.getJSON('http://localhost:3000/attendants/' + params.attendant_id);
+    return this.store.find('attendant', params.attendant_id);
   }
 });

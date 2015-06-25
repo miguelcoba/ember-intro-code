@@ -16,7 +16,7 @@ app.get('/', function(req, res) {
 });
 
 app.get('/attendants', function(req, res) {
-  res.json(attendants);
+  res.json({ attendants: attendants });
 });
 
 app.get('/attendants/:id', function(req, res) {
@@ -26,24 +26,25 @@ app.get('/attendants/:id', function(req, res) {
   }
 
   var q = attendants[req.params.id - 1];
-  res.json(q);
+  res.json({ attendant: q });
 });
 
 app.post('/attendants', function(req, res) {
-  if (!req.body.firstName || !req.body.email) {
+	var attendantPayload = req.body.attendant;
+  if (!attendantPayload || !attendantPayload.firstName || !attendantPayload.email) {
     res.statusCode = 400;
     return res.send('Error 400: First Name and email are required.');
   }
 
   var attendant = {
     id: attendants.length + 1,
-    firstName : req.body.firstName,
-    lastName : req.body.lastName,
-    email : req.body.email
+    firstName : attendantPayload.firstName,
+    lastName : attendantPayload.lastName,
+    email : attendantPayload.email
   };
 
   attendants.push(attendant);
-  res.json(attendant);
+  res.json({ attendant: attendant });
 });
 
 app.delete('/attendants/:id', function(req, res) {
