@@ -1,7 +1,5 @@
 App = Ember.Application.create();
 
-App.attendants = [];
-
 App.Router.map(function() {
   // put your routes here
 	this.route('register');
@@ -13,7 +11,7 @@ App.Router.map(function() {
 
 App.RegisterRoute = Ember.Route.extend({
 	model: function() {
-		return { id: App.attendants.length + 1, firstName: "", lastName: "", email: ""}
+		return { firstName: "", lastName: "", email: ""}
 	}
 });
 
@@ -28,20 +26,23 @@ App.RegisterController = Ember.Controller.extend({
 	actions: {
 		register: function() {
 			var newAttendant = Ember.copy(this.get('model'));
-			App.attendants.push(newAttendant);
-			this.transitionToRoute('index');
+			var self = this;
+
+			Ember.$.post('http://localhost:3000/attendants', newAttendant).then(function(data) {
+				self.transitionToRoute('index');
+			});
 		}
 	}
 });
 
 App.AttendantsRoute = Ember.Route.extend({
   model: function() {
-    return App.attendants;
+    return Ember.$.getJSON('http://localhost:3000/attendants');
   }
 });
 
 App.AttendantsAboutRoute = Ember.Route.extend({
   model: function(params) {
-    return App.attendants.findBy('id', params.attendant_id);
+    return Ember.$.getJSON('http://localhost:3000/attendants/' + params.attendant_id);
   }
 });

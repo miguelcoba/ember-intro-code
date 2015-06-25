@@ -1,0 +1,11 @@
+{
+  "name": "express-api",
+  "description": "Simple Express REST API server",
+  "private" : true,
+  "version": "0.0.1",
+  "dependencies": {
+    "express": "3.x",
+    "cors": "2.7.x"
+  },
+  "main" : "server"
+}
