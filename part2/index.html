@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Ember Starter Kit</title>
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <script type="text/x-handlebars">
+    <h1>Ember.js Conf 2015 registry</h1>
+
+    {{outlet}}
+  </script>
+
+  <script type="text/x-handlebars" id="index">
+		<h2>Welcome to the Ember.js Conf 2015</h2>
+
+		{{#link-to 'register'}}Register here{{/link-to}} to get you ticket to the best confererce in the ember.js world.<br/>
+
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+		If you're an admin, enter the attendant page {{#link-to 'attendants'}}here{{/link-to}}
+  </script>
+
+  <script type="text/x-handlebars" id="register">
+		<h3>Please enter your info</h3>
+		<label for='firstName'>First Name</label>
+		{{input value=model.firstName}}<br/>
+		<label for='lastName'>Last Name</label>
+		{{input value=model.lastName}}<br/>
+		<label for='email'>Email</label>
+		{{input value=model.email type='email'}}<br/>
+
+		<button {{action "register"}} {{bind-attr disabled=isInvalid}}>Register</button>
+	</script>
+
+  <script type="text/x-handlebars" id="registered">
+		<h3>Thanks for registering {{firstName}}</h3>
+		{{#link-to 'index'}}Return to main page{{/link-to}}
+	</script>
+
+  <script type="text/x-handlebars" id="attendants">
+		<h2>Ember.js Conference 2015 attendant list</h2>
+		<ul>
+			{{#each attendant in model}}
+				<li>{{attendant.lastName}}, {{attendant.firstName}}. &lt;{{attendant.email}}&gt; {{#link-to 'attendants.about' attendant}}About{{/link-to}}</li>
+			{{/each}}
+		</ul>
+
+		{{outlet}}
+
+		<br/>
+		{{#link-to 'index'}}Return to conference page{{/link-to}}
+	</script>
+
+  <script type="text/x-handlebars" id="attendants/about">
+		<h3>Ember.js Conference 2015 attendant details</h3>
+		
+		First Name: {{model.firstName}}<br/>
+		Last Name: {{model.lastName}}<br/>
+		Email: {{model.email}}<br/>
+	</script>
+
+  <script src="js/libs/jquery-1.10.2.js"></script>
+  <script src="js/libs/ember-template-compiler-1.12.0.js"></script>
+  <script src="js/libs/ember-1.12.0.debug.js"></script>
+  <script src="js/app.js"></script>
+  <!-- to activate the test runner, add the "?test" query string parameter -->
+  <script src="tests/runner.js"></script>
+</body>
+</html>
